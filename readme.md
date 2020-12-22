@@ -19,6 +19,10 @@ docker push toregard/backend:2.0
 
 ```
 
+### maven docker 
+- see https://dzone.com/articles/build-docker-image-from-maven
+- See https://codefresh.io/docker-tutorial/java_docker_pipeline/
+
 #### dockerfile
 https://spring.io/blog/2020/01/27/creating-docker-images-with-spring-boot-2-3-0-m1
 ```
@@ -28,6 +32,11 @@ ARG JAR_FILE=target/my-application.jar
 ADD ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ```
+
+##Jib  
+See also https://medium.com/@prgnr173/containerize-your-spring-boot-app-with-jib-plugin-50127d99a22f
+
+###
 
 # kubernetes
 
@@ -46,7 +55,6 @@ kubectl delete pods --all
 
 ```
 
-## Google cloud 
 ```
 kubectl get all
 ```
