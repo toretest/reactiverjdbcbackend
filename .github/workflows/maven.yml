@@ -2,25 +2,64 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: Java CI with Maven
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
+  compile:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java: [ 1.8 ]
+    name: Java ${{ matrix.java }} compile
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - run: mvn -f pom.xml clean compile 
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
+    needs: compile
+    name: Build Maven project
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Docker Build then Push
-    - uses: tegarimansyah/docker_build_push@0.1.0
+    - name: Build and test project
+      run: mvn -f pom.xml clean verify
+    - name: Upload Maven build artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: artifact
+        path: target/app.jar
+  
+#on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+#
+#jobs:
+#  build:
+#
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up JDK 1.8
+#      uses: actions/setup-java@v1
+#      with:
+#        java-version: 1.8
+#    - name: Build with Maven
+#      run: mvn -B package --file pom.xml
+#    - name: Docker Build then Push
+#    - uses: tegarimansyah/docker_build_push@0.1.0
