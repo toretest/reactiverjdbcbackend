@@ -41,6 +41,29 @@ jobs:
       with:
         name: artifact
         path: target/app.jar
+  deploy: 
+    runs-on: ubuntu-latest  
+    needs: build 
+    name: Build Docker container and deploy to Kubernetes
+    steps:
+    - uses: actions/checkout@v1
+    - name: Download Maven build artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: artifact
+    - name: Build Docker container
+      run: |
+        mkdir -p target
+        mv artifact/app.jar target
+        docker build -t backend/app app
+    - name: Access secrets
+      env: 
+        SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
+      run: echo "Content of secret - $SUPER_SECRET"
+    - name: Push Docker images
+      run: echo "Pushing Docker image to Container Registry (e.g. ECR)"
+    - name: Deploy application
+      run: echo "Deploying application (e.g. Kubernetes)"  
   
 #on:
 #  push:
