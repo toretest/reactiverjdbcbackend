@@ -1,5 +1,6 @@
 package net.toregard.reactiverjdbcbackend.resource;
 
+/*import hello.A;*/
 import net.toregard.reactiverjdbcbackend.domain.Book;
 import net.toregard.reactiverjdbcbackend.repository.BookRepository;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +43,11 @@ public class BookResource {
         return getData();
     }
 
-    @GetMapping(value = "/ping", produces = "application/json")
+   /* @GetMapping(value = "/ping", produces = "application/json")
     public ResponseEntity<String> ping() {
+        A a = new A("Hello");
         return ResponseEntity.ok("OK");
-    }
+    }*/
 
 
     private ArrayList<Book> getData() {

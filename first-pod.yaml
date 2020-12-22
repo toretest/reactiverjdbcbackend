@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backendpod
+  labels:
+    app: backend
+    release: "0"
+spec:
+  containers:
+  - name: backendpod
+    image: toregard/backend:2.0
