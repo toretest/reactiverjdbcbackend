@@ -1,5 +1,9 @@
 # Info
 
+## github action pipeline
+- https://docs.github.com/en/free-pro-team@latest/actions/reference/specifications-for-github-hosted-runners
+- https://github.com/actions
+
 ## actuator
 ```
 curl localhost:8080/actuator | jq .
