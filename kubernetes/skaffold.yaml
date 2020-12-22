@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: reactiverjdbcbackend
+build:
+  artifacts:
+  - image: toregard/backend
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yaml
+    - first-pod.yaml
+    - kubernetes/pod.yml
