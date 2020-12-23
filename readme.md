@@ -1,6 +1,7 @@
 # Info
 
 ## github action pipeline
+- https://medium.com/@alexander.volminger/ci-cd-for-java-maven-using-github-actions-d009a7cb4b8f
 - https://docs.github.com/en/free-pro-team@latest/actions/reference/specifications-for-github-hosted-runners
 - https://github.com/actions
 
