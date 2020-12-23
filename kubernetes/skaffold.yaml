@@ -6,7 +6,7 @@ build:
   artifacts:
   - image: toregard/backend
     docker:
-      dockerfile: Dockerfile
+      dockerfile: IKKEBRUKDockerfile
 deploy:
   kubectl:
     manifests:

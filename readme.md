@@ -17,6 +17,8 @@ docker build -t toregard/backend:1.0
 
 docker push toregard/backend:2.0
 
+docker run -p 8080:8080 toregard/backend:2.0
+
 ## NB! Følger med docker!!!! 
 ## se https://spring.io/blog/2020/01/27/creating-docker-images-with-spring-boot-2-3-0-m1
 ./mvnw spring-boot:build-image
