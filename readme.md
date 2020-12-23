@@ -5,6 +5,16 @@
 - https://docs.github.com/en/free-pro-team@latest/actions/reference/specifications-for-github-hosted-runners
 - https://github.com/actions
 
+## Openshift % codeready 
+- https://itnext.io/im-sorry-openshift-i-ve-taken-you-for-granted-the-evidence-dd7a7d471fa1
+- https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.7/html/getting_started_guide/configuring-codeready-containers_gsg
+```
+oc new-app registry.access.redhat.com/ubi8/openjdk-11:latest~https://github.com/toretest/reactiverjdbcbackend.git
+oc new-app registry.access.redhat.com/ubi8/openjdk-11:latest~https://github.com/toretest/reactiverjdbcbackend.git
+oc expose service/reactiverjdbcbackend
+oc logs -f buildconfig/reactiverjdbcbackend
+```
+
 ## actuator
 ```
 curl localhost:8080/actuator | jq .
