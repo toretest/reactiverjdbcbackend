@@ -1,12 +1,20 @@
 package net.toregard.reactiverjdbcbackend.resource;
 
 /*import hello.A;*/
+
 import net.toregard.reactiverjdbcbackend.domain.Book;
 import net.toregard.reactiverjdbcbackend.repository.BookRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/books")
@@ -38,6 +46,30 @@ public class BookResource {
         return bookRepository.deleteById(id);
     }*/
 
+    final String urlServer = "http://localhost:8081";
+
+    @GetMapping("/{param}")
+    public Mono<ResponseEntity<Mono<String>>> testGet(@PathVariable String param) {
+        final long dateStarted = System.currentTimeMillis();
+
+        WebClient webClient = WebClient.create(urlServer + "/server/");
+        Mono<ClientResponse> respuesta = webClient.get().uri("?queryParam={name}", param).exchange();
+        Mono<ClientResponse> respuesta1 = webClient.get().uri("?queryParam={name}", "SPEED".equals(param) ? "SPEED" : "STOP").exchange();
+
+        Mono<ResponseEntity<Mono<String>>> f1 = Mono.zip(respuesta, respuesta1)
+                .map(t -> {
+                    if (!t.getT1().statusCode().is2xxSuccessful()) {
+                        return ResponseEntity.status(t.getT1().statusCode()).body(t.getT1().bodyToMono(String.class));
+                    }
+                    if (!t.getT2().statusCode().is2xxSuccessful()) {
+                        return ResponseEntity.status(t.getT2().statusCode()).body(t.getT2().bodyToMono(String.class));
+                    }
+                    return ResponseEntity.ok().body(Mono.just(
+                            "All OK. Seconds elapsed: " + (((double) (System.currentTimeMillis() - dateStarted) / 1000))));
+                });
+        return f1;
+    }
+
     @GetMapping(value = "/gammel", produces = "application/json")
     public List<Book> getallOld() {
         return getData();
@@ -57,5 +89,6 @@ public class BookResource {
         data.add(new Book(1L, "name1", "auth1"));
         return data;
     }
+
 
 }

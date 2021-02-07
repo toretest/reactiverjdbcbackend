@@ -2,7 +2,22 @@ package domain
 
 
 data class StationData(
-        val stations: Array<Station>
+        var stations: Array<Station>,
+
+)
+
+data class Response(
+        val stations: Array<Station>?=null,
+        val availabilites: Array<Availability>?=null,
+        val status : Status?=null
+)
+
+data class AvailabilityData(
+        var stations: Array<Availability>?
+)
+
+data class StatusData(
+        val status : Status
 )
 
 data class Station(
@@ -16,6 +31,17 @@ data class Station(
 data class Coordinate(
         val latitude: Double,
         val longitude: Double
+)
+
+data class Availability(
+        val id : String,
+        val bikes : Int,
+        val locks : Int
+)
+
+data class Status(
+        val all_stations_closed: Boolean,
+        val stations_closed : Array<Station>
 )
 
 
